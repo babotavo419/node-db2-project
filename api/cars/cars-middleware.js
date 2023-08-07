@@ -1,6 +1,6 @@
 const Cars = require('./cars-model');
 const vinValidator = require('vin-validator');
-const db = require('./data/db-config');
+const db = require('../../data/db-config');
 
 async function checkCarId(req, res, next) {
   try {
