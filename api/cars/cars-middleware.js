@@ -23,12 +23,30 @@ function checkCarPayload(req, res, next) {
   }
 }
 
-// TODO: Implement validation and uniqueness checks for the vin number
+async function checkVinNumberValid(req, res, next) {
+  const { vin } = req.body;
+  if (vinValidator.validate(vin)) { 
+    next();
+  } else {
+    next({ status: 400, message: `vin ${vin} is invalid` })
+  }
+}
+
+async function checkVinNumberUnique(req, res, next) {
+  const { vin } = req.body;
+  const car = await db('cars').where('vin', vin).first()
+  if (car) {
+    next({ status: 400, message: `vin ${vin} already exists` })
+  } else {
+    next();
+  }
+}
+
 
 module.exports = {
   checkCarId,
   checkCarPayload,
-  // checkVinNumberValid,
-  // checkVinNumberUnique,
+  checkVinNumberValid,
+  checkVinNumberUnique,
 };
 
