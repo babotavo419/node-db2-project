@@ -3,7 +3,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 
 // Import the cars router
-const carsRouter = require('./api/cars/cars-router');
+const carsRouter = require('./cars/cars-router');
 
 const server = express();
 
