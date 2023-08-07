@@ -1,4 +1,6 @@
 const Cars = require('./cars-model');
+const vinValidator = require('vin-validator');
+const db = require('./data/db-config');
 
 async function checkCarId(req, res, next) {
   try {
@@ -23,7 +25,7 @@ function checkCarPayload(req, res, next) {
   }
 }
 
-async function checkVinNumberValid(req, res, next) {
+function checkVinNumberValid(req, res, next) {
   const { vin } = req.body;
   if (vinValidator.validate(vin)) { 
     next();
@@ -42,11 +44,11 @@ async function checkVinNumberUnique(req, res, next) {
   }
 }
 
-
 module.exports = {
   checkCarId,
   checkCarPayload,
   checkVinNumberValid,
   checkVinNumberUnique,
 };
+
 

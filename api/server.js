@@ -17,13 +17,22 @@ server.use(express.json());
 // Use the cars router for all requests starting with '/api/cars'
 server.use('/api/cars', carsRouter);
 
-// Basic error handling middleware
-server.use((err, req, res, next) => {
-  res.status(err.status || 500).json({
-    message: err.message,
-    stack: err.stack,
+server.use('*', (req, res) => {
+    res.status(404).json({ message: "not found" });
   });
-});
+
+server.use((err, req, res, next) => {
+    if (process.env.NODE_ENV === 'development') {
+      res.status(err.status || 500).json({
+        message: err.message,
+        stack: err.stack,
+      });
+    } else {
+      res.status(err.status || 500).json({
+        message: err.message,
+      });
+    }
+  });  
 
 module.exports = server;
 
